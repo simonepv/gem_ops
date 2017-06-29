@@ -1,0 +1,79 @@
+Gas:
+Flow cell 2: In = 6.1 l/h Out: 5.1 l/h    Measured at 2017.06.19 09:43:41
+Flow cell 3: In = 5.3 l/h Out: 5.7 l/h    Measured at 2017.06.19 09:43:41
+Flow cell 4: In = 5.4 l/h Out: 4.8 l/h    Measured at 2017.06.19 09:43:41
+
+
+GEMINIm27L1:
+HV:2501.0, I:466.6    Measured at 2017.06.29 12:50:43
+VFAT LV:2.51, I:2.05    Measured at 2017.06.29 12:54:06
+OH_2V LV:2.02, I:2.29    Measured at 2017.06.29 12:54:08
+OH_4V LV:3.4, I:3.41    Measured at 2017.06.29 12:53:50
+
+GEMINIm27L2:
+HV:2500.0, I:473.0    Measured at 2017.06.29 12:38:10
+VFAT LV:2.51, I:2.01    Measured at 2017.06.29 12:50:49
+OH_2V LV:2.01, I:2.29    Measured at 2017.06.29 12:53:56
+OH_4V LV:3.39, I:3.0    Measured at 2017.06.29 12:53:56
+
+GEMINIm28L1:
+HV:2501.0, I:467.7    Measured at 2017.06.29 12:49:11
+VFAT LV:2.49, I:2.06    Measured at 2017.06.29 12:54:08
+OH_2V LV:2.01, I:2.16    Measured at 2017.06.29 12:54:02
+OH_4V LV:3.41, I:3.02    Measured at 2017.06.29 12:53:44
+
+GEMINIm28L2:
+HV:2501.0, I:467.2    Measured at 2017.06.29 12:53:54
+VFAT LV:2.5, I:2.04    Measured at 2017.06.29 12:53:14
+OH_2V LV:2.02, I:2.36    Measured at 2017.06.29 12:54:08
+OH_4V LV:3.41, I:3.06    Measured at 2017.06.29 12:54:00
+
+GEMINIm29L1:
+HV:2502.0, I:470.4    Measured at 2017.06.29 12:54:08
+VFAT LV:2.49, I:2.06    Measured at 2017.06.29 12:54:02
+OH_2V LV:2.01, I:2.14    Measured at 2017.06.29 12:54:02
+OH_4V LV:3.4, I:3.02    Measured at 2017.06.29 12:54:02
+
+GEMINIm29L2:
+HV:2500.0, I:467.3    Measured at 2017.06.29 12:54:02
+VFAT LV:4.51, I:2.08    Measured at 2017.06.29 12:54:04
+OH_2V LV:2.01, I:2.16    Measured at 2017.06.29 12:54:06
+OH_4V LV:3.41, I:3.04    Measured at 2017.06.29 12:54:08
+
+GEMINIm30L1:
+HV:2499.0, I:471.0    Measured at 2017.06.28 18:33:24
+VFAT LV:2.49, I:2.08    Measured at 2017.06.29 12:54:06
+OH_2V LV:1.99, I:2.47    Measured at 2017.06.29 12:53:30
+OH_4V LV:3.41, I:3.09    Measured at 2017.06.29 12:53:32
+
+GEMINIm30L2:
+HV:2501.0, I:470.5    Measured at 2017.06.28 12:45:49
+VFAT LV:2.5, I:2.19    Measured at 2017.06.29 12:53:32
+OH_2V LV:2.01, I:2.29    Measured at 2017.06.29 12:54:02
+OH_4V LV:3.41, I:3.06    Measured at 2017.06.28 20:21:04
+
+
+GEMINIm01L1:
+Drift 528.84, I:-0.03    Measured at 2017.06.29 12:54:04
+G1Top 263.26, I:-0.01    Measured at 2017.06.29 12:54:06
+G1Bottom 205.82, I:-0.0    Measured at 2017.06.29 12:54:06
+G2Top 258.46, I:0.01    Measured at 2017.06.29 12:54:06
+G2Bottom 411.18, I:0.01    Measured at 2017.06.29 12:54:04
+G3Top 246.92, I:-0.03    Measured at 2017.06.29 12:54:06
+G3Bottom 293.92, I:0.02    Measured at 2017.06.29 12:54:06
+VFAT LV:2.51, I:2.04    Measured at 2017.06.29 12:53:42
+OH_2V LV:2.02, I:2.26    Measured at 2017.06.29 12:53:50
+OH_4V LV:3.4, I:3.02    Measured at 2017.06.29 12:54:08
+
+GEMINIm01L2:
+Drift 528.76, I:0.01    Measured at 2017.06.29 12:54:04
+G1Top 263.06, I:0.02    Measured at 2017.06.29 12:54:04
+G1Bottom 205.92, I:0.09    Measured at 2017.06.29 12:53:50
+G2Top 258.46, I:0.01    Measured at 2017.06.29 12:54:02
+G2Bottom 410.68, I:0.03    Measured at 2017.06.29 12:54:02
+G3Top 246.72, I:-0.0    Measured at 2017.06.29 12:54:06
+G3Bottom 293.58, I:0.05    Measured at 2017.06.29 12:54:06
+VFAT LV:2.51, I:2.01    Measured at 2017.06.29 12:53:34
+OH_2V LV:2.01, I:2.49    Measured at 2017.06.29 12:54:08
+OH_4V LV:3.39, I:3.13    Measured at 2017.06.29 12:53:46
+
