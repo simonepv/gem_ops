@@ -11,44 +11,44 @@ data0 = []
 def print_gas_flow_cell():
   print "Gas:"
   for cell in sorted(flow_cells):
-    print "%s: In = %s l/h Out: %s l/h    Measured at %s" % (cell, round(imons[flow_cells[cell]["In"]]*100)/100, round(imons[flow_cells[cell]["Out"]]*100)/100,dates[flow_cells[cell]["In"]])
+    print "%s: In = %s l/h Out: %s l/h    Measured at %s UTC 2017" % (cell, round(imons[flow_cells[cell]["In"]]*100)/100, round(imons[flow_cells[cell]["Out"]]*100)/100,dates[flow_cells[cell]["In"]])
   print ""
 
 def print_reg_chamber(chamber):
   print "%s:" %(chamber)
   id = chamber_settings[chamber]["HV"]
-  print "HV:%s, I:%s    Measured at %s" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id]
+  print "HV:%s, I:%s    Measured at %s UTC 2017" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id]
 )
   id = chamber_settings[chamber]["LV_VFATS"]
-  print "VFAT LV:%s, I:%s    Measured at %s" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id])
+  print "VFAT LV:%s, I:%s    Measured at %s UTC 2017" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id])
   id = chamber_settings[chamber]["LV_OH2V"]
-  print "OH_2V LV:%s, I:%s    Measured at %s" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id])
+  print "OH_2V LV:%s, I:%s    Measured at %s UTC 2017" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id])
   id = chamber_settings[chamber]["LV_OH4V"]
-  print "OH_4V LV:%s, I:%s    Measured at %s" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id])
+  print "OH_4V LV:%s, I:%s    Measured at %s UTC 2017" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id])
   print ""
 
 def print_multichan_chamber(chamber):
   print "%s:" %(chamber)
   id = mult_chamber_settings[chamber]["Drift"]
-  print "Drift %s, I:%s    Measured at %s" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id])
+  print "Drift %s, I:%s    Measured at %s UTC 2017" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id])
   id = mult_chamber_settings[chamber]["G1Top"]
-  print "G1Top %s, I:%s    Measured at %s" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id])
+  print "G1Top %s, I:%s    Measured at %s UTC 2017" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id])
   id = mult_chamber_settings[chamber]["G1Bottom"]
-  print "G1Bottom %s, I:%s    Measured at %s" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id])
+  print "G1Bottom %s, I:%s    Measured at %s UTC 2017" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id])
   id = mult_chamber_settings[chamber]["G2Top"]
-  print "G2Top %s, I:%s    Measured at %s" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id])
+  print "G2Top %s, I:%s    Measured at %s UTC 2017" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id])
   id = mult_chamber_settings[chamber]["G2Bottom"]
-  print "G2Bottom %s, I:%s    Measured at %s" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id])
+  print "G2Bottom %s, I:%s    Measured at %s UTC 2017" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id])
   id = mult_chamber_settings[chamber]["G3Top"]
-  print "G3Top %s, I:%s    Measured at %s" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id])
+  print "G3Top %s, I:%s    Measured at %s UTC 2017" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id])
   id = mult_chamber_settings[chamber]["G3Bottom"]
-  print "G3Bottom %s, I:%s    Measured at %s" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id])
+  print "G3Bottom %s, I:%s    Measured at %s UTC 2017" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id])
   id = mult_chamber_settings[chamber]["LV_VFATS"]
-  print "VFAT LV:%s, I:%s    Measured at %s" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id])
+  print "VFAT LV:%s, I:%s    Measured at %s UTC 2017" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id])
   id = mult_chamber_settings[chamber]["LV_OH2V"]
-  print "OH_2V LV:%s, I:%s    Measured at %s" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id])
+  print "OH_2V LV:%s, I:%s    Measured at %s UTC 2017" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id])
   id = mult_chamber_settings[chamber]["LV_OH4V"]
-  print "OH_4V LV:%s, I:%s    Measured at %s" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id])
+  print "OH_4V LV:%s, I:%s    Measured at %s UTC 2017" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id])
   print ""
 
 
