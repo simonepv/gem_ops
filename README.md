@@ -1,8 +1,8 @@
 # gem_ops
 This repository is intended to keep useful operational scripts
 * DCS STATUS DB query script
-**Can be run from lxplus
-**Usage:
+** Can be run from lxplus
+** Usage:
 `cd DCS_STATUS && sh get_gem_dcs_status.sh`
 
 Comment:
