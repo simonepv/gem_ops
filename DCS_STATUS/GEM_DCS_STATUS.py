@@ -17,8 +17,7 @@ def print_gas_flow_cell():
 def print_reg_chamber(chamber):
   print "%s:" %(chamber)
   id = chamber_settings[chamber]["HV"]
-  print "HV:%s, I:%s    Measured at %s UTC 2017" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id]
-)
+  print "HV:%s, I:%s    Measured at %s UTC 2017" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id])
   id = chamber_settings[chamber]["LV_VFATS"]
   print "VFAT LV:%s, I:%s    Measured at %s UTC 2017" % (round(vmons[id]*100)/100, round(imons[id]*100)/100,dates[id])
   id = chamber_settings[chamber]["LV_OH2V"]
