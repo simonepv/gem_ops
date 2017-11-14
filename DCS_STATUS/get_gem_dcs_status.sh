@@ -1,6 +1,7 @@
 #!/bin/bash
 echo "Getting DCS STATUS INFO"
 echo "Start time $(date -u)"
+cd $(dirname $0)
 cp template.sql request.sql
 sed -i -e "s/CURRENT_DATE/$(date -u +'%Y.%m.%d %H:%M:%S')/g" request.sql
 sed -i -e "s/START_DATE_SHORT/$(date -d '-2 day' -u +'%Y.%m.%d %H:%M:%S')/g" request.sql
