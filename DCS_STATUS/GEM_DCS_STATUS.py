@@ -17,6 +17,17 @@ def print_gas_flow_cell():
       print "%s: DB READING ERROR!" % (cell)
   print ""
 
+def print_gas_pressure():
+  print "Gas:"
+  for cell in sorted(gas_pressure):
+    id = gas_pressure[cell]
+    try:
+      print "%s: %s    Measured at %s UTC 2017" % (cell, round(imons[id]*100)/100, dates[id])
+    except KeyError:
+      print "%s: DB READING ERROR!" % (cell)
+  print ""
+
+
 def print_reg_chamber(chamber):
   print "%s:" %(chamber)
   id = chamber_settings[chamber]["HV"]
@@ -136,7 +147,8 @@ for row in data0:
   #print str(round(imons[id]*100)/100)
   #print str(round(vmons[id]*100)/100)
  
-print_gas_flow_cell()
+#print_gas_flow_cell()
+print_gas_pressure()
 print ""
 for ch in sorted(chamber_settings):
   print_reg_chamber(ch)
