@@ -1,4 +1,7 @@
 endcap = {
+31:"CMSGEM_Di_PT6125",
+32:"CMSGEM_Di_PT6124",
+33:"CMSGEM_Di_PT6122",
 48:"CAEN/GEM_CAEN_HV/board12/channel000", 
 49:"CAEN/GEM_CAEN_HV/board12/channel001", 
 50:"CAEN/GEM_CAEN_HV/board12/channel002", 
@@ -66,6 +69,11 @@ endcap = {
 flow_cells = {"Flow cell 2":{"In":45, "Out":130},
               "Flow cell 3":{"In":35, "Out":132},
               "Flow cell 4":{"In":46, "Out":134},}
+
+gas_pressure = {"Pressure Out P1":31,
+                "Pressure In P2":32,
+                "Pressure In P3":33,}
+
 
 chamber_settings = {"GEMINIm27L1":{"HV":183,"LV_VFATS":195,"LV_OH2V":196,"LV_OH4V":197},
                     "GEMINIm27L2":{"HV":184,"LV_VFATS":198,"LV_OH2V":199,"LV_OH4V":200},
