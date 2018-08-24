@@ -147,7 +147,6 @@ def main(args):
         tc.cd()
         t.Draw("{:s}>>h{:d}".format(h2ds[h][0],hoff+1),"date>{:d}&&date<{:d}".format(int(tmin),int(tmax)),"colz")
         c.cd(hoff+1)
-        # histos[hoff].SetTitle("{:s} vs. Time".format(h2ds[h][1]))
         histos[hoff].SetTitle("")
         histos[hoff].GetYaxis().SetTitle(h2ds[h][1])
         histos[hoff].GetXaxis().SetTitle("Unix timestamp [UTC]")
@@ -310,21 +309,19 @@ if __name__ == '__main__':
 
     opts = argparse.ArgumentParser()
 
-    opts.add_argument("fname",  help="File name time",      type=str)
-    opts.add_argument("-tmin",  help="Minimum time",        type=float)
-    opts.add_argument("-tmax",  help="Maximum time",        type=float)
-    opts.add_argument("-stmin", help="String minimum time", type=str)
-    opts.add_argument("-stmax", help="String maximum time", type=str)
+    opts.add_argument("fname",  help="File name (CTP7PhaseMonData_<fname>.root)", type=str)
+    opts.add_argument("-tmin",  help="Minimum time (Unix time)",        type=float)
+    opts.add_argument("-tmax",  help="Maximum time (Unix time)",        type=float)
+    opts.add_argument("-stmin", help="String minimum time (string to parse as timestamp for smart guessing)", type=str)
+    opts.add_argument("-stmax", help="String maximum time (string to parse as timestamp for smart guessing)", type=str)
     opts.add_argument("-d",     help="debug", action='store_true')
 
     args = opts.parse_args()
 
     if args.stmin:
-        # args.tmin = time.mktime(datetime.datetime.strptime(args.stmin, '%Y.%b.%d %I.%M.%S').timetuple())
         args.tmin = time.mktime(parser.parse(args.stmin).timetuple())
         print("Parsed {} as {}".format(args.stmin,args.tmin))
     if args.stmax:
-        # args.tmax = time.mktime(datetime.datetime.strptime(args.stmax, '%Y.%b.%d %I.%M.%S').timetuple())
         args.tmax = time.mktime(parser.parse(args.stmax).timetuple())
         print("Parsed {} as {}".format(args.stmax,args.tmax))
 

@@ -147,9 +147,7 @@ def timeLVInfoCorrelator(chamber,subsystem):
                     vmon = pvmon
                 pimon = imon
                 pvmon = vmon
-                # smart guessing, since the DB query returned some without the usecs
                 statetime = time.mktime(parser.parse(date).timetuple())
-                # statetime = time.mktime(datetime.datetime.strptime(date, '%Y-%m-%d %H:%M:%S.%f').timetuple())
                 tmpfile.write("{}\t{}\t{}\n".format(int(statetime)+7200,float(vmon),float(imon)))
                 pass
             pass
@@ -179,20 +177,13 @@ def main(args):
 
     f = r.TFile("CTP7PhaseMonData_{}.root".format(args.fname),"RECREATE");
 
+    ## To prepare LV correlator information (disabled for now)
     # for ch in range(27,31):
     #     for lay in range(1,3):
     #         vfat_vmon  = timeLVInfoCorrelator("GEMINIm{}L{}".format(ch,lay), 'VFAT')
     #         oh2v_vmon  = timeLVInfoCorrelator("GEMINIm{}L{}".format(ch,lay), 'OH2V')
     #         oh4v_vmon  = timeLVInfoCorrelator("GEMINIm{}L{}".format(ch,lay), 'OH4V')
     #         f.Write()
-    
-    # lhcClockTuple        = timeDBInfoCorrelator("LHC_CLOCK_STABLE",'export_lhc_clock_stable.csv')
-    # tcdsClockTuple        = timeTCDSFreqCorrelator('tcds_clock_frequency.csv')
-    # tcdsClockTuple       = timeDBInfoCorrelator("TCDS_CLOCK_STATE",'export_tcds_clock_source.csv')
-    # cmsClockTuple        = timeDBInfoCorrelator("CMS_CLOCK_STATE", 'export_clock_state.csv')
-    # tcdsConfiguringTuple = timeDBInfoCorrelator("TCDS_CONFIGURING",'export_tcds_configuring.csv')
-    # gemConfiguringTuple  = timeDBInfoCorrelator("GEM_CONFIGURING", 'export_gem_configuring.csv')
-
 
     tcdsClockFreqTuple   = timeTCDSFreqMonCorrelator("TCDS_FREQMON.csv")
     tcdsClockSrcTuple    = timeRunInfoDBInfoCorrelator("CMS_CLK_TYPE","CLOCK_TYPE_AT_PRECONFIGURE.csv")
@@ -201,8 +192,6 @@ def main(args):
     tcdsConfiguringTuple = timeRunInfoDBInfoCorrelator("TCDS_CONF","TCDS_CONF_TIMES.csv")
 
     t = r.TTree("ntuple","data from CTP7 phase monitoring");
-    # t.ReadFile("ctp7_phase_monitor_tts_busy_mid_run.log",headers)
-
     t.ReadFile("ctp7_phase_monitor_{}.log".format(args.fname),headers)
 
     f.Write()
@@ -213,7 +202,7 @@ if __name__ == '__main__':
     from dateutil import parser
     opts = argparse.ArgumentParser()
 
-    opts.add_argument("fname", help="File name time", type=str)
+    opts.add_argument("fname", help="File name time (ctp7_phase_monitor_<fname>.log)", type=str)
     opts.add_argument("-d",    help="debug", action='store_true')
 
     args = opts.parse_args()
