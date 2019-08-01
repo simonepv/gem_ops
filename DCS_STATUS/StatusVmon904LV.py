@@ -7,6 +7,14 @@ import time
 from operator import itemgetter
 from datetime import datetime
 from array import array
+import argparse
+from argparse import RawTextHelpFormatter
+
+#argparse
+parser = argparse.ArgumentParser(description='''Retrieve from the database the vmon, imon and status informations \nfor qc8 and create a root file for the asked chambers. \nTo execute the code just type \n\npython StatusVmon904LV.py \n\nand then insert the Start date, the End date of the monitor scan, \nthe number of chambers to look and the position of chmabers in the \nqc8 stand \n\n guide: https://twiki.cern.ch/twiki/bin/view/CMS/QC8MonitoringHVLV''', formatter_class=RawTextHelpFormatter)
+
+args = parser.parse_args()
+#print args.accumulate(args.integers)
 
 #import DB credentials
 from gempython.utils.wrappers import envCheck

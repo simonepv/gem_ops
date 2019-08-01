@@ -8,9 +8,10 @@ from datetime import datetime
 from operator import itemgetter
 from array import array
 import argparse
+from argparse import RawTextHelpFormatter
 
 #argparse
-parser = argparse.ArgumentParser(description="Retrieve from the database the vmon, imon and status informations for qc8 and create a root file for the asked chambers. \nTo execute the code just type \npython StatusVmon904HV.py \nand then insert the Start date, the End date of the monitor scan, \nthe number of chambers to look and the position of chmabers in the \n qc8 stand \n\n guide: https://twiki.cern.ch/twiki/bin/view/CMS/QC8MonitoringHVLV")
+parser = argparse.ArgumentParser(description='''Retrieve from the database the vmon, imon and status informations \nfor qc8 and create a root file for the asked chambers. \nTo execute the code just type \n\npython StatusVmon904HV.py \n\nand then insert the Start date, the End date of the monitor scan, \nthe number of chambers to look and the position of chmabers in the \nqc8 stand \n\n guide: https://twiki.cern.ch/twiki/bin/view/CMS/QC8MonitoringHVLV''', formatter_class=RawTextHelpFormatter)
 
 args = parser.parse_args()
 #print args.accumulate(args.integers)
