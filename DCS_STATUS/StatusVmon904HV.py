@@ -11,7 +11,7 @@ import argparse
 from argparse import RawTextHelpFormatter
 
 #argparse
-parser = argparse.ArgumentParser(description='''Retrieve from the database the vmon, imon and status informations \nfor qc8 and create a root file for the asked chambers. \nTo execute the code just type \n\npython StatusVmon904HV.py \n\nand then insert the Start date and the End date of the monitor scan. \nPut the positions of chmabers in the stand in the file QC8HVMonitorChambers.txt, made for example in this way \n1-2-Top\n3-2-Bot \n\nguide: https://twiki.cern.ch/twiki/bin/view/CMS/QC8MonitoringHVLV''', formatter_class=RawTextHelpFormatter)
+parser = argparse.ArgumentParser(description='''Retrieve from the database the vmon, imon and status informations \nfor qc8 and create a root file for the asked chambers. \nTo execute the code just type \n\npython StatusVmon904HV.py \n\nand then insert the Start date and the End date of the monitor scan. \nPut the positions of chambers in the stand in the file QC8HVMonitorChambers.txt, made for example in this way \n1-2-Top\n3-2-Bot \n\nguide: https://twiki.cern.ch/twiki/bin/view/CMS/QC8MonitoringHVLV''', formatter_class=RawTextHelpFormatter)
 
 args = parser.parse_args()
 #print args.accumulate(args.integers)

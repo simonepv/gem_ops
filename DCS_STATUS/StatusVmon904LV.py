@@ -11,7 +11,7 @@ import argparse
 from argparse import RawTextHelpFormatter
 
 #argparse
-parser = argparse.ArgumentParser(description='''Retrieve from the database the vmon, imon and status informations \nfor qc8 and create a root file for the asked chambers. \nTo execute the code just type \n\npython StatusVmon904LV.py \n\nand then insert the Start date, the End date of the monitor scan, \nthe number of chambers to look and the position of chmabers in the \nqc8 stand \n\n guide: https://twiki.cern.ch/twiki/bin/view/CMS/QC8MonitoringHVLV''', formatter_class=RawTextHelpFormatter)
+parser = argparse.ArgumentParser(description='''Retrieve from the database the vmon, imon and status informations \nfor qc8 and create a root file for the asked chambers. \nTo execute the code just type \n\npython StatusVmon904LV.py \n\nand then insert the Start date and the End date of the monitor scan. \nPut the positions of chambers in the stand in the file QC8LVMonitorChambers.txt, made for example in this way \n1-2-Top\n3-2-Bot \n\nguide: https://twiki.cern.ch/twiki/bin/view/CMS/QC8MonitoringHVLV''', formatter_class=RawTextHelpFormatter)
 
 args = parser.parse_args()
 #print args.accumulate(args.integers)
@@ -160,16 +160,36 @@ def main():
    insertedChannels = 6
 
    #insert the list of chambers in DCS convention
-   howManyChambers = raw_input("Tell me how many chambers you are using\n")
-   type(howManyChambers)
+   #howManyChambers = raw_input("Tell me how many chambers you are using\n")
+   #type(howManyChambers)
 
    chamberList = []
-   print ("Tell me the chambers' names in DCS convention (for example 1-2-Top)")
+   #print ("Tell me the chambers' names in DCS convention (for example 1-2-Top)")
+
+   #name of chambers are take in input from the QC8LVMonitorChambers.txt file
+   #count the number of chambers in the QC8LVMonitorChambers.txt file
+   howManyChambers = sum(1 for line in open('QC8LVMonitorChambers.txt')) 
+   print ("In your QC8LVMonitorChambers.txt you have put "+str(howManyChambers)+" chambers")
+
+   #read chambers' names
+   fileChambers = open("QC8LVMonitorChambers.txt", "r")
+   fileChambersLine = fileChambers.readlines()
 
    for cont in range(int(howManyChambers)):
-      chamberName = raw_input("Chamber: ")
-      type(chamberName)
+      #chamberName = raw_input("Chamber: ")
+      chamberName = str(fileChambersLine[cont])[:-1]
+      print chamberName
       chamberName = chamberName.replace("-","_")
+      #check that the name of the chamber is one of the existing
+      ExistingChambers = [ "1_1_Bot", "1_1_Top", "1_2_Bot", "1_2_Top", "1_3_Bot", "1_3_Top", "2_1_Bot", "2_1_Top", "2_2_Bot", "2_2_Top", "2_3_Bot", "2_3_Top", "3_1_Bot", "3_1_Top", "3_2_Bot", "3_2_Top", "3_3_Bot", "3_3_Top", "4_1_Bot", "4_1_Top", "4_2_Bot", "4_2_Top", "4_3_Bot", "4_3_Top", "5_1_Bot", "5_1_Top", "5_2_Bot", "5_2_Top", "5_3_Bot", "5_3_Top" ]
+      ExistBool = False
+      for existIdx in range(len(ExistingChambers)):
+         if chamberName == ExistingChambers[ existIdx ]:
+            ExistBool = True
+      if ExistBool == False:
+         print ("WRONG NAME OF THE CHAMBER: the only accepted format is X-Y-Top ot X-Y-Bot")
+         return 1
+
       chamberList.append(chamberName)
 
    #print(chamberList)
@@ -201,27 +221,96 @@ def main():
    VmonTgraph1List = []
    SmonTgraph1List = []
 
+   #read Mapping from file QC8LVMapping.txt
+   boolMapping = [ False, False, False ]   
+   MainframeMapList1 = []
+   MainframeMapList2 = []
+   MainframeMapList3 = []
+   BranchControllerList1 = []
+   BranchControllerList2 = []
+   BranchControllerList3 = []
+   BoardMapList1 = []
+   BoardMapList2 = []
+   BoardMapList3 = []
+
+   fileMapping = open("QC8LVMapping.txt", "r")
+   fileLine = fileMapping.readlines()
+   for x in fileLine:
+      #remove the carriage return from the end of the line 
+      if str(x)[:-1] == "FirstMapping":
+         boolMapping[0] = True
+         continue
+
+      if str(x)[:-1] == "SecondMapping":
+         boolMapping[0] = False
+         boolMapping[1] = True
+         continue
+      
+      if str(x)[:-1] == "ThirdMapping":
+         boolMapping[1] = False
+         boolMapping[2] = True
+         continue
+
+      if boolMapping[0] == True:
+         lineMainframeBranchBoard = str(x)[:-1]
+         #find / separating board from mainframe 
+         firstSlashIdx = lineMainframeBranchBoard.index("/")
+         MainframeMapList1.append( lineMainframeBranchBoard[ :firstSlashIdx ] )
+         secondSlashIdx = lineMainframeBranchBoard.index("/", firstSlashIdx+1, len(lineMainframeBranchBoard)-1)
+         branchControllerWord = lineMainframeBranchBoard[ (firstSlashIdx+1):secondSlashIdx ]
+         branchControllerWord = branchControllerWord.replace("branchController", "") 
+         BranchControllerList1.append( branchControllerWord )
+         boardWord = lineMainframeBranchBoard[ (secondSlashIdx+1): ]
+         boardWord = boardWord.replace("easyBoard", "")
+         BoardMapList1.append( boardWord ) 
+
+      if boolMapping[1] == True:
+         lineMainframeBranchBoard = str(x)[:-1]
+         #find / separating board from mainframe 
+         firstSlashIdx = lineMainframeBranchBoard.index("/")
+         MainframeMapList2.append( lineMainframeBranchBoard[ :firstSlashIdx ] )
+         secondSlashIdx = lineMainframeBranchBoard.index("/", firstSlashIdx+1, len(lineMainframeBranchBoard)-1)
+         branchControllerWord = lineMainframeBranchBoard[ (firstSlashIdx+1):secondSlashIdx ]
+         branchControllerWord = branchControllerWord.replace("branchController", "") 
+         BranchControllerList2.append( branchControllerWord )
+         boardWord = lineMainframeBranchBoard[ (secondSlashIdx+1): ]
+         boardWord = boardWord.replace("easyBoard", "")
+         BoardMapList2.append( boardWord ) 
+
+      if boolMapping[2] == True:
+         lineMainframeBranchBoard = str(x)[:-1]
+         #find / separating board from mainframe 
+         firstSlashIdx = lineMainframeBranchBoard.index("/")
+         MainframeMapList3.append( lineMainframeBranchBoard[ :firstSlashIdx ] )
+         secondSlashIdx = lineMainframeBranchBoard.index("/", firstSlashIdx+1, len(lineMainframeBranchBoard)-1)
+         branchControllerWord = lineMainframeBranchBoard[ (firstSlashIdx+1):secondSlashIdx ]
+         branchControllerWord = branchControllerWord.replace("branchController", "") 
+         BranchControllerList3.append( branchControllerWord )
+         boardWord = lineMainframeBranchBoard[ (secondSlashIdx+1): ]
+         boardWord = boardWord.replace("easyBoard", "")
+         BoardMapList3.append( boardWord ) 
+
    ChamberMapList = [ "1_1_Top", "1_1_Bot", "1_2_Top", "1_2_Bot", "1_3_Top", "1_3_Bot", "2_1_Top", "2_1_Bot", "2_2_Top", "2_2_Bot", "2_3_Top", "2_3_Bot", "3_1_Top", "3_1_Bot", "3_2_Top", "3_2_Bot", "3_3_Top", "3_3_Bot", "4_1_Top", "4_1_Bot", "4_2_Top", "4_2_Bot", "4_3_Top", "4_3_Bot", "5_1_Top", "5_1_Bot", "5_2_Top", "5_2_Bot", "5_3_Top", "5_3_Bot" ]
 
-   MainframeMapList1 = [ "904_Shared_mainframe", "904_Shared_mainframe", "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe" ]
+   #MainframeMapList1 = [ "904_Shared_mainframe", "904_Shared_mainframe", "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe" ]
 
-   BranchControllerList1 = [ "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00" ]
+   #BranchControllerList1 = [ "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00" ]
 
-   BoardMapList1 = [ "00", "00", "00", "00", "00", "00", "04", "04", "04", "04", "04", "04", "08", "08", "08", "08", "08", "08", "12", "12", "12", "12", "12", "12", "16", "16", "16", "16", "16", "16" ]
+   #BoardMapList1 = [ "00", "00", "00", "00", "00", "00", "04", "04", "04", "04", "04", "04", "08", "08", "08", "08", "08", "08", "12", "12", "12", "12", "12", "12", "16", "16", "16", "16", "16", "16" ]
 
    
-   MainframeMapList2 = [ "904_Shared_mainframe", "904_Shared_mainframe", "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe" ]
+   #MainframeMapList2 = [ "904_Shared_mainframe", "904_Shared_mainframe", "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe" ]
 
-   BranchControllerList2 = [ "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00" ]
+   #BranchControllerList2 = [ "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", "00" ]
    
-   BoardMapList2 = [ "00", "00", "00", "00", "00", "00", "04", "04", "04", "04", "04", "04", "08", "08", "08", "08", "08", "08", "12", "12", "12", "12", "12", "12", "16", "16", "16", "16", "16", "16" ]
+   #BoardMapList2 = [ "00", "00", "00", "00", "00", "00", "04", "04", "04", "04", "04", "04", "08", "08", "08", "08", "08", "08", "12", "12", "12", "12", "12", "12", "16", "16", "16", "16", "16", "16" ]
 
 
-   MainframeMapList3 = [ "904_HV_mainframe", "904_HV_mainframe", "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe" ]
+   #MainframeMapList3 = [ "904_HV_mainframe", "904_HV_mainframe", "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe" ]
 
-   BranchControllerList3 = [ "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14" ]
+   #BranchControllerList3 = [ "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14", "14" ]
 
-   BoardMapList3 = [ "00", "00", "00", "00", "00", "00", "04", "04", "04", "04", "04", "04", "08", "08", "08", "08", "08", "08", "12", "12", "12", "12", "12", "12", "16", "16", "16", "16", "16", "16" ]
+   #BoardMapList3 = [ "00", "00", "00", "00", "00", "00", "04", "04", "04", "04", "04", "04", "08", "08", "08", "08", "08", "08", "12", "12", "12", "12", "12", "12", "16", "16", "16", "16", "16", "16" ]
 
 
    ChannelMapList = [ "000", "001", "002", "003", "004", "005", "000", "001", "002", "003", "004", "005", "000", "001", "002", "003", "004", "005", "000", "001", "002", "003", "004", "005", "000", "001", "002", "003", "004", "005" ]
