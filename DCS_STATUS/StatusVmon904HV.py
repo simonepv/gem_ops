@@ -158,12 +158,22 @@ def main():
    type(howManyChambers)
 
    chamberList = []
-   print ("Tell me the chambers' names in DCS convention (for example 1-2-Top)")
+   print ("Tell me the chambers' names in DCS convention (for example 1-2-Top or 1-2-Bot)")
 
    for cont in range(int(howManyChambers)):
       chamberName = raw_input("Chamber: ")
       type(chamberName)
       chamberName = chamberName.replace("-","_")
+      #check that the name of the chamber is one of the existing
+      ExistingChambers = [ "1_1_Bot", "1_1_Top", "1_2_Bot", "1_2_Top", "1_3_Bot", "1_3_Top", "2_1_Bot", "2_1_Top", "2_2_Bot", "2_2_Top", "2_3_Bot", "2_3_Top", "3_1_Bot", "3_1_Top", "3_2_Bot", "3_2_Top", "3_3_Bot", "3_3_Top", "4_1_Bot", "4_1_Top", "4_2_Bot", "4_2_Top", "4_3_Bot", "4_3_Top", "5_1_Bot", "5_1_Top", "5_2_Bot", "5_2_Top", "5_3_Bot", "5_3_Top" ]
+      ExistBool = False
+      for existIdx in range(len(ExistingChambers)):
+         if chamberName == ExistingChambers[ existIdx ]:
+            ExistBool = True
+      if ExistBool == False:
+         print ("WRONG NAME OF THE CHAMBER: the only accepted format is X-Y-Top ot X-Y-Bot")
+         return 1
+
       chamberList.append(chamberName)
 
    #print (chamberList)
@@ -195,14 +205,62 @@ def main():
    #MainframeMapList and BoardMapList lists follow the order of ChamberMapList
    ChamberMapList = [ "1_1", "1_2", "1_3", "2_1", "2_2", "2_3", "3_1", "3_2", "3_3", "4_1", "4_2", "4_3", "5_1", "5_2", "5_3" ]
 
-   MainframeMapList1 = [ "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe", "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe" ]
-   BoardMapList1 = [ "board00", "board01", "board02", "board03", "board04", "board05", "board06", "board07", "board08", "board09", "board10", "board11", "board12", "board13", "board14" ]
+   #read Mapping from file QC8HVMapping.txt
+   boolMapping = [ False, False, False ]   
+   MainframeMapList1 = []
+   MainframeMapList2 = []
+   MainframeMapList3 = []
+   BoardMapList1 = []
+   BoardMapList2 = []
+   BoardMapList3 = []
+   
+   fileMapping = open("QC8HVMapping.txt", "r")
+   fileLine = fileMapping.readlines()
+   for x in fileLine:
+      #remove the carriage return from the end of the line 
+      if str(x)[:-1] == "FirstMapping":
+         boolMapping[0] = True
+         continue
 
-   MainframeMapList2 = [ "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe", "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe" ]
-   BoardMapList2 = [ "board00", "board01", "board02", "board03", "board04", "board05", "board06", "board07", "board08", "board10", "board14", "board15", "board11", "board12", "board13" ]
+      if str(x)[:-1] == "SecondMapping":
+         boolMapping[0] = False
+         boolMapping[1] = True
+         continue
+      
+      if str(x)[:-1] == "ThirdMapping":
+         boolMapping[1] = False
+         boolMapping[2] = True
+         continue
 
-   MainframeMapList3 = [ "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe", "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe" ]
-   BoardMapList3 = [ "board00", "board01", "board02", "board03", "board04", "board05", "board06", "board07", "board08", "board10", "board14", "board15", "board11", "board12", "board13" ]
+      if boolMapping[0] == True:
+         lineMainframeAndBoard = str(x)[:-1]
+         #find / separating board from mainframe 
+         slashIdx = lineMainframeAndBoard.index("/")
+         MainframeMapList1.append( lineMainframeAndBoard[ :slashIdx ] )
+         BoardMapList1.append( lineMainframeAndBoard[ (slashIdx+1): ] ) 
+
+      if boolMapping[1] == True:
+         lineMainframeAndBoard = str(x)[:-1]
+         #find / separating board from mainframe 
+         slashIdx = lineMainframeAndBoard.index("/")
+         MainframeMapList2.append( lineMainframeAndBoard[ :slashIdx ] )
+         BoardMapList2.append( lineMainframeAndBoard[ (slashIdx+1): ] ) 
+
+      if boolMapping[2] == True:
+         lineMainframeAndBoard = str(x)[:-1]
+         #find / separating board from mainframe 
+         slashIdx = lineMainframeAndBoard.index("/")
+         MainframeMapList3.append( lineMainframeAndBoard[ :slashIdx ] )
+         BoardMapList3.append( lineMainframeAndBoard[ (slashIdx+1): ] ) 
+
+   #MainframeMapList1 = [ "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe", "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe" ]
+   #BoardMapList1 = [ "board00", "board01", "board02", "board03", "board04", "board05", "board06", "board07", "board08", "board09", "board10", "board11", "board12", "board13", "board14" ]
+
+   #MainframeMapList2 = [ "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe", "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe" ]
+   #BoardMapList2 = [ "board00", "board01", "board02", "board03", "board04", "board05", "board06", "board07", "board08", "board10", "board14", "board15", "board11", "board12", "board13" ]
+
+   #MainframeMapList3 = [ "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe",  "904_HV_mainframe", "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe",  "904_Shared_mainframe" ]
+   #BoardMapList3 = [ "board00", "board01", "board02", "board03", "board04", "board05", "board06", "board07", "board08", "board10", "board14", "board15", "board11", "board12", "board13" ]
 
    channelList = [ "G3Bot", "G3Top", "G2Bot", "G2Top", "G1Bot", "G1Top", "Drift"]
 
