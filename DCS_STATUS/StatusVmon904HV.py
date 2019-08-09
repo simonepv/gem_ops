@@ -11,7 +11,7 @@ import argparse
 from argparse import RawTextHelpFormatter
 
 #argparse
-parser = argparse.ArgumentParser(description='''Retrieve from the database the vmon, imon and status informations \nfor qc8 and create a root file for the asked chambers. \nTo execute the code just type \n\npython StatusVmon904HV.py \n\nand then insert the Start date, the End date of the monitor scan, \nthe number of chambers to look and the position of chmabers in the \nqc8 stand \n\n guide: https://twiki.cern.ch/twiki/bin/view/CMS/QC8MonitoringHVLV''', formatter_class=RawTextHelpFormatter)
+parser = argparse.ArgumentParser(description='''Retrieve from the database the vmon, imon and status informations \nfor qc8 and create a root file for the asked chambers. \nTo execute the code just type \n\npython StatusVmon904HV.py \n\nand then insert the Start date and the End date of the monitor scan. \nPut the positions of chmabers in the stand in the file QC8HVMonitorChambers.txt, made for example in this way \n1-2-Top\n3-2-Bot \n\nguide: https://twiki.cern.ch/twiki/bin/view/CMS/QC8MonitoringHVLV''', formatter_class=RawTextHelpFormatter)
 
 args = parser.parse_args()
 #print args.accumulate(args.integers)
@@ -154,15 +154,25 @@ def main():
    insertedChannels = 14
 
    #insert the list of chambers in DCS convention
-   howManyChambers = raw_input("Tell me how many chambers you are using\n")
-   type(howManyChambers)
+   #howManyChambers = raw_input("Tell me how many chambers you are using\n")
+   #type(howManyChambers)
 
    chamberList = []
-   print ("Tell me the chambers' names in DCS convention (for example 1-2-Top or 1-2-Bot)")
+   #print ("Tell me the chambers' names in DCS convention (for example 1-2-Top or 1-2-Bot)")
+   
+   #name of chambers are take in input from the QC8HVMonitorChambers.txt file
+   #count the number of chambers in the QC8HVMonitorChambers.txt file
+   howManyChambers = sum(1 for line in open('QC8HVMonitorChambers.txt')) 
+   print ("In your QC8HVMonitorChambers.txt you have put "+str(howManyChambers)+" chambers")
+
+   #read chambers' names
+   fileChambers = open("QC8HVMonitorChambers.txt", "r")
+   fileChambersLine = fileChambers.readlines()
 
    for cont in range(int(howManyChambers)):
-      chamberName = raw_input("Chamber: ")
-      type(chamberName)
+      #chamberName = raw_input("Chamber: ")
+      chamberName = str(fileChambersLine[cont])[:-1]
+      print chamberName
       chamberName = chamberName.replace("-","_")
       #check that the name of the chamber is one of the existing
       ExistingChambers = [ "1_1_Bot", "1_1_Top", "1_2_Bot", "1_2_Top", "1_3_Bot", "1_3_Top", "2_1_Bot", "2_1_Top", "2_2_Bot", "2_2_Top", "2_3_Bot", "2_3_Top", "3_1_Bot", "3_1_Top", "3_2_Bot", "3_2_Top", "3_3_Bot", "3_3_Top", "4_1_Bot", "4_1_Top", "4_2_Bot", "4_2_Top", "4_3_Bot", "4_3_Top", "5_1_Bot", "5_1_Top", "5_2_Bot", "5_2_Top", "5_3_Bot", "5_3_Top" ]
